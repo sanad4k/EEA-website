@@ -1,0 +1,167 @@
+---
+// src/components/HeroPhysics.astro
+
+// --- 1. THE CONFIGURATION (Your "Template") ---
+// Add any text here, and it will automatically become a physics box.
+// xPercent: 0.5 is center screen, 0.1 is left, 0.9 is right.
+const items = [
+  // The Original Hero Letters
+  { id: 'e1', text: 'E',  type: 'hero', xPercent: 0.3,  yOffset: -200 },
+  { id: 'e2', text: 'E',  type: 'hero', xPercent: 0.5,  yOffset: -300 },
+  { id: 'a1', text: 'A',  type: 'hero', xPercent: 0.7,  yOffset: -400 },
+
+  // Your NEW Custom Text Blocks
+  { 
+    id: 'desc1', 
+    text: 'EEA stands for Electrical Engineering Association', 
+    type: 'info', // Uses different size/font styles defined below
+    xPercent: 0.5, 
+    yOffset: -600 
+  },
+  { 
+    id: 'desc2', 
+    text: 'Est. 2024', 
+    type: 'info', 
+    xPercent: 0.2, 
+    yOffset: -800 
+  }
+  
+  
+];
+---
+
+<section id="physics-container" class="relative w-full h-[60vh] md:h-[80vh] overflow-hidden bg-gray-50 border-b border-gray-300 cursor-grab active:cursor-grabbing">
+  
+  {items.map((item) => (
+    <div 
+      data-id={item.id}
+      data-type={item.type}
+      data-x-percent={item.xPercent}
+      data-y-offset={item.yOffset}
+      class="physics-item absolute left-0 top-0 pointer-events-none select-none bg-black text-white flex items-center justify-center text-center p-4 will-change-transform z-10"
+    >
+      <span class={item.type === 'hero' 
+        ? "text-[4rem] md:text-[8rem] font-black leading-none" 
+        : "text-sm md:text-xl font-bold leading-tight"}>
+        {item.text}
+      </span>
+    </div>
+  ))}
+    
+  <div class="absolute bottom-0 w-full h-1 bg-gray-400 z-0 pointer-events-none"></div>
+</section>
+
+<script>
+  import Matter from 'matter-js';
+
+  const Engine = Matter.Engine,
+        Render = Matter.Render,
+        World = Matter.World,
+        Bodies = Matter.Bodies,
+        Mouse = Matter.Mouse,
+        MouseConstraint = Matter.MouseConstraint,
+        Runner = Matter.Runner,
+        Events = Matter.Events;
+
+  const container = document.getElementById('physics-container');
+  let width = container.clientWidth;
+  let height = container.clientHeight;
+  const isMobile = width < 768;
+
+  // --- CONFIGURATION ---
+  const FLOOR_HEIGHT = 4;
+  
+  // Define Sizes for different types (Mobile vs Desktop)
+  const SIZES = {
+    hero: { w: isMobile ? 80 : 160, h: isMobile ? 100 : 200 },
+    info: { w: isMobile ? 150 : 300, h: isMobile ? 80 : 120 } // Wider, shorter boxes for text
+  };
+
+  // --- ENGINE SETUP ---
+  const engine = Engine.create({ positionIterations: 10, velocityIterations: 10 });
+  const world = engine.world;
+  const render = Render.create({
+      element: container,
+      engine: engine,
+      options: { width, height, background: 'transparent', wireframes: false, hasBounds: true }
+  });
+  render.canvas.style.opacity = '0';
+
+  // --- BOUNDARIES ---
+  const wallThick = 2000;
+  const floor = Bodies.rectangle(width / 2, height + (wallThick / 2) - FLOOR_HEIGHT, width + 2000, wallThick, { isStatic: true });
+  const leftWall = Bodies.rectangle(0 - wallThick/2, height/2, wallThick, height * 4, { isStatic: true });
+  const rightWall = Bodies.rectangle(width + wallThick/2, height/2, wallThick, height * 4, { isStatic: true });
+  World.add(world, [floor, leftWall, rightWall]);
+
+  // --- DYNAMIC ITEM GENERATION ---
+  // 1. Find all HTML elements we created in the loop above
+  const htmlItems = document.querySelectorAll('.physics-item');
+
+  htmlItems.forEach((el) => {
+    const element = el as HTMLElement;
+    const id = element.dataset.id;
+    const type = element.dataset.type || 'hero';
+    const xPercent = parseFloat(element.dataset.xPercent || '0.5');
+    const yOffset = parseFloat(element.dataset.yOffset || '-200');
+
+    // 2. Determine size based on type and screen size
+    const size = SIZES[type];
+    
+    // 3. Apply exact size to HTML so it matches physics perfectly
+    element.style.width = `${size.w}px`;
+    element.style.height = `${size.h}px`;
+
+    // 4. Create Physics Body
+    const startX = width * xPercent;
+    const startY = height - FLOOR_HEIGHT - (size.h / 2) + yOffset; // Start higher up based on offset
+
+    const body = Bodies.rectangle(startX, startY, size.w, size.h, { 
+      restitution: 0.5, 
+      friction: 0.1, 
+      density: 0.04,
+      label: id // CRITICAL: This connects Physics Body -> HTML Element
+    });
+
+    World.add(world, body);
+  });
+
+  // --- INTERACTION ---
+  const mouse = Mouse.create(render.canvas);
+  render.mouse = mouse; 
+  const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: { stiffness: 0.1, damping: 0.1, render: { visible: false } }
+  });
+  // Prevent scroll hijacking
+  mouseConstraint.mouse.element.removeEventListener("mousewheel", mouseConstraint.mouse.mousewheel);
+  mouseConstraint.mouse.element.removeEventListener("DOMMouseScroll", mouseConstraint.mouse.mousewheel);
+  World.add(world, mouseConstraint);
+
+  // --- SYNC LOOP ---
+  Events.on(engine, 'afterUpdate', function() {
+      const bodies = Matter.Composite.allBodies(engine.world);
+      bodies.forEach((body) => {
+          // If the body has a label (it's one of our items), sync it
+          if (body.label && body.label !== 'Rectangle Body') { 
+              const visual = document.querySelector(`[data-id="${body.label}"]`) as HTMLElement;
+              if (visual) {
+                  visual.style.transform = `translate(${body.position.x - visual.offsetWidth/2}px, ${body.position.y - visual.offsetHeight/2}px) rotate(${body.angle}rad)`;
+              }
+          }
+      });
+  });
+
+  Runner.run(Runner.create(), engine);
+  Render.run(render);
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => { location.reload(); }, 200);
+  });
+</script>
+
+<style>
+    #physics-container canvas { position: absolute; top: 0; left: 0; z-index: 20; }
+</style>

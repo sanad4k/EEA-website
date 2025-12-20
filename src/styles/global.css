@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap');
+
+.primary-bg {
+    /* color :#000; */
+    background-color: #E6E6E6;
+
+}
+.primary-clr {
+    color:black;
+}
+.accentclr{
+    color:#EA4726
+}
+
+.fntplay {
+  font-family: "Schoolbell", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.navbarStyle {
+    padding: 10px;
+    border-radius: 8px;
+    border-color:#fca311;
+    background-color: #ffffff;
+}
