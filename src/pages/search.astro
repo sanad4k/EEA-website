@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/Layout.astro';
+import SearchWidget from '../components/SearchWidget.astro';
+---
+
+<BaseLayout pageTitle="Search Results">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <h1 class="text-3xl font-bold mb-6">Search Results</h1>
+    
+    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm min-h-[400px]">
+      <SearchWidget />
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  // This script grabs the "?q=..." from the URL and types it into the widget automatically
+  window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    
+    if (query) {
+      // Check every 100ms if the Pagefind input is ready, then type the query
+      const interval = setInterval(() => {
+        const input = document.querySelector('#pagefind-search input');
+        if (input) {
+          input.value = query;
+          // Trigger the input event so Pagefind knows to start searching
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          clearInterval(interval);
+        }
+      }, 100);
+    }
+  });
+</script>

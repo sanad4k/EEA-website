@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DataCard from '../../components/dataCard.astro';
+import { getCollection } from 'astro:content';
+
+// 1. Fetch ALL data
+const allPosts = await getCollection('data');
+
+// 2. Filter ONLY alumni (This is the only difference from the Interview page)
+const alumni = allPosts.filter(post => post.data.category === 'alumni');
+
+// 3. Sort by date (Newest first)
+alumni.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout pageTitle="Alumni Network">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold mb-4">Alumni Network</h1>
+      <p class="text-xl text-gray-600">Connect with seniors working in the industry.</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {alumni.map(post => (
+        <DataCard post={post} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

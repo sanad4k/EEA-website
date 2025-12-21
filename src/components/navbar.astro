@@ -75,6 +75,7 @@ const navLinks = [
 </header>
 
 <script>
+  // Mobile Menu Logic
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
 
@@ -83,4 +84,24 @@ const navLinks = [
       menu.classList.toggle('hidden');
     });
   }
+
+  // --- SEARCH LOGIC START ---
+  // Select all search inputs (Desktop & Mobile)
+  const searchInputs = document.querySelectorAll('input[type="search"]');
+
+  searchInputs.forEach(input => {
+    input.addEventListener('keydown', (e) => {
+      // We check for "Enter" key
+      if (e.key === 'Enter') {
+        const target = e.target;
+        const term = target.value.trim();
+        
+        if (term) {
+          // Redirect to the search page with the query in the URL
+          window.location.href = `/search?q=${encodeURIComponent(term)}`;
+        }
+      }
+    });
+  });
+  // --- SEARCH LOGIC END ---
 </script>

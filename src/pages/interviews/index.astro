@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../layouts/Layout.astro';
+import DataCard from '../../components/dataCard.astro'; // Use DataCard
+import { getCollection } from 'astro:content';
+
+// 1. Fetch ALL data
+const allPosts = await getCollection('data');
+
+// 2. Filter ONLY interviews
+const interviews = allPosts.filter(post => post.data.category === 'interview');
+
+// 3. Sort by date (Newest first)
+interviews.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout pageTitle="Interviews">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold mb-10">Interview Experiences</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {interviews.map(post => (
+        <DataCard post={post} />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,6 +1,5 @@
 ---
 import Navbar from "../components/navbar.astro";
-import Bigletters from "../components/bigletters.astro";
 
 import "../styles/global.css";
 ---
@@ -24,10 +23,9 @@ import "../styles/global.css";
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro Basics</title>
 	</head>
-	<body class="secondary-bg bbh-bogle-regular oswald-fnt-lt">
+	<body class="primary-bg bbh-bogle-regular oswald-fnt-lt">
 		<header>
 			<Navbar />
-			<Bigletters />
 		</header>
 		<slot />
 	</body>

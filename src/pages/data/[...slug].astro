@@ -1,0 +1,42 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+// 1. Generate a path for every single file in the 'data' folder
+export async function getStaticPaths() {
+  const posts = await getCollection('data');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout pageTitle={post.data.title}>
+  <main class="max-w-4xl mx-auto px-6 py-12" data-pagefind-body>
+    
+    <div class="mb-8 border-b border-gray-200 pb-8">
+      <span class="text-sm font-bold text-blue-600 uppercase tracking-wide">
+        {post.data.category}
+      </span>
+      <h1 class="text-4xl font-extrabold text-gray-900 mt-2 mb-4">
+        {post.data.title}
+      </h1>
+      <div class="flex items-center gap-4 text-gray-600">
+        <p class="font-medium">{post.data.candidateName}</p>
+        <span>•</span>
+        <p>{post.data.company}</p>
+        <span>•</span>
+        <p>{post.data.date.toISOString().split('T')[0]}</p>
+      </div>
+    </div>
+
+    <article class="prose prose-lg prose-blue max-w-none">
+      <Content />
+    </article>
+
+  </main>
+</BaseLayout>
