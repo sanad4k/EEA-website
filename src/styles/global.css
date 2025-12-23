@@ -5,8 +5,8 @@
 
 
 .piece {
-  height: 20vh;
-  padding-top: 200px;
+  /* height: 10vh; */
+  padding-top: 55px;
   display: grid;
   place-content: center;
 }

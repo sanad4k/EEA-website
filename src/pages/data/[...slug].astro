@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
+import BaseLayout from '../../layouts/Layout.astro';
 
-// 1. Generate a path for every single file in the 'data' folder
+
 export async function getStaticPaths() {
   const posts = await getCollection('data');
   return posts.map(post => ({
@@ -14,29 +14,110 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await post.render();
 ---
-
-<Layout pageTitle={post.data.title}>
-  <main class="max-w-4xl mx-auto px-6 py-12" data-pagefind-body>
+<section class="piece"></section>
+<BaseLayout pageTitle={post.data.title}>
+  
+  <main class="max-w-4xl mx-auto px-6 py-20">
     
-    <div class="mb-8 border-b border-gray-200 pb-8">
-      <span class="text-sm font-bold text-blue-600 uppercase tracking-wide">
+    <div class="mb-12 border-b border-gray-200 pb-8">
+      <span class="text-[#EA4726] font-bold tracking-wider uppercase text-sm">
         {post.data.category}
       </span>
-      <h1 class="text-4xl font-extrabold text-gray-900 mt-2 mb-4">
+      <h1 class="text-4xl md:text-6xl font-black text-gray-900 mt-2 mb-6 leading-tight">
         {post.data.title}
       </h1>
-      <div class="flex items-center gap-4 text-gray-600">
-        <p class="font-medium">{post.data.candidateName}</p>
+      <div class="flex flex-wrap items-center gap-4 text-gray-500 text-lg">
+        <span class="font-bold text-gray-900">{post.data.candidateName}</span>
         <span>•</span>
-        <p>{post.data.company}</p>
+        <span>{post.data.company}</span>
         <span>•</span>
-        <p>{post.data.date.toISOString().split('T')[0]}</p>
+        <time>{new Date(post.data.date).toLocaleDateString()}</time>
       </div>
     </div>
 
-    <article class="prose prose-lg prose-blue max-w-none">
+    <article class="markdown-body">
       <Content />
     </article>
 
   </main>
 </BaseLayout>
+
+<style is:global>
+  /* Base Text */
+  .markdown-body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: #374151; /* Gray-700 */
+    line-height: 1.8;
+    font-size: 1.125rem; /* 18px */
+  }
+
+  /* FORCE HEADERS TO BE BIG 
+     We use !important to override any Tailwind defaults 
+  */
+  
+  /* H1 (# Title) */
+  .markdown-body h1 {
+    display: block;
+    font-size: 2.5rem !important; /* 40px */
+    font-weight: 800 !important;
+    color: #111827; /* Gray-900 */
+    margin-top: 3rem !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.5rem;
+  }
+
+  /* H2 (## Title) - Used for 'Career', 'Industry Insights' */
+  .markdown-body h2 {
+    display: block;
+    font-size: 1.8rem !important; /* ~28px */
+    font-weight: 700 !important;
+    color: #EA4726 !important; /* YOUR ORANGE ACCENT */
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* H3 (### Title) - Used for Questions 'Q: ...' */
+  .markdown-body h3 {
+    display: block;
+    font-size: 1.35rem !important; /* ~22px */
+    font-weight: 700 !important;
+    color: #1f2937;
+    margin-top: 2rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Bold Text (**text**) */
+  .markdown-body strong {
+    font-weight: 700 !important;
+    color: #000;
+  }
+
+  /* Paragraphs */
+  .markdown-body p {
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Lists */
+  .markdown-body ul {
+    list-style-type: disc !important;
+    padding-left: 2rem !important;
+    margin-bottom: 1.5rem;
+  }
+  .markdown-body li {
+    margin-bottom: 0.5rem;
+  }
+  .markdown-body li::marker {
+    color: #EA4726; /* Orange bullets */
+  }
+  
+  /* Blockquotes */
+  .markdown-body blockquote {
+    border-left: 4px solid #EA4726;
+    background-color: #f9fafb;
+    padding: 1rem;
+    font-style: italic;
+    margin: 2rem 0;
+  }
+</style>

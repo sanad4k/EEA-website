@@ -1,0 +1,40 @@
+---
+---
+
+<div id="no-survey-container" class="flex flex-col items-center justify-center py-20 px-6 text-center opacity-0 translate-y-10">
+  
+  <div class="relative mb-8 group">
+    <div class="absolute inset-0 bg-[#EA4726]/10 rounded-full blur-xl scale-0 group-hover:scale-110 transition-transform duration-700"></div>
+    <div class="relative bg-white p-6 rounded-full shadow-lg border border-gray-100">
+      <svg class="w-16 h-16 text-[#EA4726]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    </div>
+  </div>
+
+  <h2 class="text-3xl font-bold text-gray-900 mb-4">All Caught Up!</h2>
+  <p class="text-gray-600 max-w-md text-lg leading-relaxed mb-8">
+    We aren't conducting any surveys at the moment. Your feedback is valuable to us, so please check back later for new topics.
+  </p>
+
+  <a href="/" class="inline-flex items-center gap-2 px-6 py-3 bg-[#EA4726] text-white font-semibold rounded-full hover:bg-orange-600 transition-colors shadow-md hover:shadow-lg">
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    Back to Home
+  </a>
+
+</div>
+
+<script>
+  import gsap from 'gsap';
+
+  // Simple entry animation
+  gsap.to('#no-survey-container', {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: "power2.out",
+    delay: 0.2
+  });
+</script>
