@@ -8,19 +8,17 @@ const navLinks = [
 ];
 ---
 
-<header class="sticky top-6 z-50 mx-auto w-[95%] rounded-2xl border border-gray-100 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all my-1 relative" style="background-color:#EA4726;">
+<header class="fixed top-4 z-50 mx-auto w-full md:w-[95%] transition-all">
   
-  <div class="flex h-20 items-center justify-between px-6 lg:px-10">
-    
+  <div class="hidden md:flex h-20 items-center justify-between px-10 rounded-2xl border border-gray-100 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.12)]" style="background-color:#EA4726;">
     <div class="flex items-center gap-4">
       <a href="/" class="group flex items-center gap-2 text-xl font-bold transition">
-        <span class="text-5xl text-black transition-colors duration-300 group-hover:text-[#ffffff]">EEA</span>
+        <span class="text-5xl text-black transition-colors duration-300 group-hover:text-white">EEA</span>
       </a>
     </div>
 
-    <div class="hidden flex-1 items-center justify-center px-8 md:flex">
+    <div class="flex-1 items-center justify-center px-8 flex">
       <div class="relative w-full max-w-md">
-        <label for="search" class="sr-only">Search</label>
         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
           <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -28,80 +26,154 @@ const navLinks = [
         </div>
         <input
           type="search"
-          id="search-input"
-          class="block w-full rounded-full border border-gray-200 bg-gray-50 py-2.5 pl-12 pr-4 text-sm text-gray-900 placeholder-gray-500 shadow-inner transition-all focus:border-[#EA4726] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#EA4726]"
+          class="desktop-search block w-full rounded-full border border-gray-200 bg-gray-50 py-2.5 pl-12 pr-4 text-sm text-gray-900 shadow-inner focus:border-white focus:ring-2 focus:ring-white focus:outline-none"
           placeholder="Search interviews, alumni..."
         />
       </div>
     </div>
 
-    <div class="flex items-center gap-6">
-      <nav class="hidden md:flex gap-8">
-        {navLinks.map((link) => (
-          <a href={link.href} class="text-lg font-bold text-black transition-colors duration-300 hover:text-[#ffffff]">
-            {link.name}
-          </a>
-        ))}
-      </nav>
-
-      <button
-        id="mobile-menu-btn"
-        class="block rounded p-2 text-black transition hover:text-white md:hidden"
-      >
-        <span class="sr-only">Toggle menu</span>
-        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
+    <nav class="flex gap-8">
+      {navLinks.map((link) => (
+        <a href={link.href} class="text-lg font-bold text-black transition-colors duration-300 hover:text-white">
+          {link.name}
+        </a>
+      ))}
+    </nav>
   </div>
 
-  <div id="mobile-menu" class="hidden absolute top-full left-0 w-full rounded-b-2xl border-t border-gray-100 bg-white md:hidden shadow-xl z-50">
-    <div class="p-6 space-y-4">
+
+  <div class="md:hidden w-full px-4 flex items-center justify-between gap-2">
+    
+    <a href="/" class="bg-[#EA4726] text-black hover:text-white transition-colors h-12 px-6 rounded-full flex items-center justify-center shadow-lg border border-white/20">
+      <span class="text-xl font-black tracking-tighter">EEA</span>
+    </a>
+
+    <div class="flex-1 h-12 relative shadow-lg rounded-full">
       <input
         type="search"
-        class="block w-full rounded-lg border border-gray-200 bg-gray-50 p-3 text-base text-gray-900 focus:border-[#EA4726] focus:outline-none focus:ring-1 focus:ring-[#EA4726]"
+        class="mobile-search w-full h-full rounded-full border-0 bg-gray-100 pl-4 pr-10 text-sm text-gray-900 focus:ring-2 focus:ring-[#EA4726] shadow-inner"
         placeholder="Search..."
       />
-      <nav class="flex flex-col gap-3">
-        {navLinks.map((link) => (
-          <a href={link.href} class="block rounded-lg px-4 py-2 text-lg font-bold text-black hover:bg-gray-50 hover:text-[#EA4726]">
-            {link.name}
-          </a>
-        ))}
-      </nav>
+      <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
     </div>
+
+    <button 
+      id="mobile-menu-btn" 
+      class="h-12 w-12 bg-white rounded-full flex items-center justify-center shadow-lg border border-gray-200 active:scale-90 transition-transform text-[#EA4726]"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" class="opacity-20" />
+        <line x1="8" y1="8" x2="8" y2="16" />
+        <line x1="4" y1="12" x2="8" y2="12" />
+        <line x1="8" y1="10" x2="16" y2="6" />
+        <line x1="16" y1="6" x2="16" y2="2" />
+        <line x1="8" y1="14" x2="16" y2="18" />
+        <line x1="16" y1="18" x2="16" y2="22" />
+        <path d="M13 18 L16 18 L15 15" /> 
+      </svg>
+    </button>
   </div>
+
+  <div 
+    id="mobile-menu" 
+    class="fixed inset-x-4 top-20 z-40 bg-white/90 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-2xl overflow-hidden origin-top opacity-0 invisible"
+  >
+    <nav class="flex flex-col p-6 gap-2">
+      {navLinks.map((link, index) => (
+        <a 
+          href={link.href} 
+          class="mobile-link block rounded-xl px-4 py-3 text-lg font-bold text-gray-800 hover:bg-[#EA4726] hover:text-white transition-all transform translate-y-4 opacity-0"
+        >
+          {link.name}
+        </a>
+      ))}
+    </nav>
+  </div>
+
 </header>
 
 <script>
-  // Mobile Menu Logic
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  import gsap from 'gsap';
 
-  if (btn && menu) {
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
+  // --- 1. MOBILE MENU ANIMATION ---
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const links = document.querySelectorAll('.mobile-link');
+  let isMenuOpen = false;
+
+  if (menuBtn && menu) {
+    menuBtn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+
+      if (isMenuOpen) {
+        // OPEN ANIMATION
+        // 1. Make visible
+        gsap.set(menu, { visibility: 'visible' });
+        
+        // 2. Expand menu container
+        gsap.fromTo(menu, 
+          { scaleY: 0, opacity: 0 },
+          { scaleY: 1, opacity: 1, duration: 0.4, ease: "back.out(1.2)" }
+        );
+
+        // 3. Stagger links coming in
+        gsap.to(links, {
+          y: 0,
+          opacity: 1,
+          duration: 0.3,
+          stagger: 0.05,
+          delay: 0.1
+        });
+
+      } else {
+        // CLOSE ANIMATION
+        // 1. Fade out links
+        gsap.to(links, {
+          y: 10,
+          opacity: 0,
+          duration: 0.2
+        });
+
+        // 2. Collapse menu
+        gsap.to(menu, {
+          scaleY: 0,
+          opacity: 0,
+          duration: 0.3,
+          ease: "power2.in",
+          onComplete: () => gsap.set(menu, { visibility: 'hidden' })
+        });
+      }
     });
   }
 
-  // --- SEARCH LOGIC START ---
-  // Select all search inputs (Desktop & Mobile)
+  // --- 2. SEARCH LOGIC (FIXED TYPESCRIPT) ---
+  // Select all search inputs
   const searchInputs = document.querySelectorAll('input[type="search"]');
 
   searchInputs.forEach(input => {
-    input.addEventListener('keydown', (e) => {
-      // We check for "Enter" key
-      if (e.key === 'Enter') {
-        const target = e.target;
-        const term = target.value.trim();
+    // Cast to HTMLElement to access addEventListener properly
+    const inputEl = input as HTMLInputElement;
+
+    inputEl.addEventListener('keydown', (e: Event) => {
+      // Cast 'e' to KeyboardEvent to access '.key'
+      const keyEvent = e as KeyboardEvent;
+      
+      if (keyEvent.key === 'Enter') {
+        // Cast 'e.target' to HTMLInputElement to access '.value'
+        const target = keyEvent.target as HTMLInputElement;
         
-        if (term) {
-          // Redirect to the search page with the query in the URL
-          window.location.href = `/search?q=${encodeURIComponent(term)}`;
+        if (target && target.value) {
+          const term = target.value.trim();
+          if (term) {
+            window.location.href = `/search?q=${encodeURIComponent(term)}`;
+          }
         }
       }
     });
   });
-  // --- SEARCH LOGIC END ---
 </script>

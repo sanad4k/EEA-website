@@ -2,6 +2,16 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap'); */
 
+
+
+.piece {
+  height: 20vh;
+  padding-top: 200px;
+  display: grid;
+  place-content: center;
+}
+
+
 .primary-bg {
     /* color :#000; */
     background-color: #E6E6E6;
