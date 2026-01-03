@@ -1,0 +1,58 @@
+---
+// src/components/TimeGreeting.astro
+---
+
+<div class="flex items-center gap-2 text-xl font-medium text-gray-800">
+  
+  <span id="greeting-icon" class="text-2xl">👋</span>
+  
+  <span id="greeting-text">Welcome</span>
+  
+</div>
+
+<script>
+  const textEl = document.getElementById('greeting-text');
+  const iconEl = document.getElementById('greeting-icon');
+
+  if (textEl && iconEl) {
+    const now = new Date();
+    const currentHour = now.getHours();
+    
+    // Format minutes to always be two digits (e.g., "05" instead of "5")
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const timeString = `${currentHour}:${minutes}`;
+
+    // DEFAULT GREETING
+    let greeting = "Hello";
+    let icon = "👋";
+
+    // EASTER EGG: Late Night (2 AM - 4 AM)
+    if (currentHour >= 2 && currentHour < 5) {
+      // The "Pookie" Message
+      greeting = `Hi pookie, it's ${timeString}. A little late to be on your phone?`;
+      icon = "👀"; // The "side eye" emoji fits perfectly here
+      
+      // Optional: Add a subtle red tint for the late-night warning vibe
+      textEl.classList.add("text-[#EA4726]", "font-bold");
+    } 
+    // STANDARD LOGIC
+    else if (currentHour >= 5 && currentHour < 12) {
+      greeting = "Good Morning";
+      icon = "🌅";
+    } else if (currentHour >= 12 && currentHour < 17) {
+      greeting = "Good Afternoon";
+      icon = "☀️";
+    } else if (currentHour >= 17 && currentHour < 22) {
+      greeting = "Good Evening";
+      icon = "🌆";
+    } else {
+      // 10 PM - 2 AM (Before the Easter Egg triggers)
+      greeting = "Good Night";
+      icon = "🌙";
+    }
+
+    // Update DOM
+    textEl.innerText = greeting;
+    iconEl.innerText = icon;
+  }
+</script>

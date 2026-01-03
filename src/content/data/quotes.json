@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "quote": "Electrical Engineers do it with more resistance.",
+    "author": "John Shedd"
+  },
+  {
+    "id": 2,
+    "quote": "A theory may be so rich in description that it can hardly be wrong, but it may be useless.",
+    "author": "Niels Bohr"
+  },
+  {
+    "id": 3,
+    "quote": "An expert is a man who has made all the mistakes which can be made in a narrow field.",
+    "author": "Niels Bohr"
+  },
+  {
+    "id": 4,
+    "quote": "Design is not what it looks like and feels like. Design is how it works.",
+    "author": "Steve Jobs"
+  },
+  {
+    "id": 5,
+    "quote": "A good scientist is a person with original ideas. A good engineer is a person who makes a design that works with as few ideas as possible.",
+    "author": "Freeman Dyson"
+  },
+  {
+    "id": 6,
+    "quote": "A horse is a sphere if it makes the equation easier.",
+    "author": "Internet"
+  },
+  {
+    "id": 7,
+    "quote": "It is necessary to learn from other people's mistakes. You will not live long enough to make them all yourself.",
+    "author": "Hyman Rickover"
+  },
+  {
+    "id": 8,
+    "quote": "The client is not always right.",
+    "author": "Enzo Ferrari"
+  },
+  {
+    "id": 9,
+    "quote": "Doctors can kill one patient at a time. Engineers can be more efficient.",
+    "author": "Internet"
+  },
+  {
+    "id": 10,
+    "quote": "A bad design with good presentation is doomed eventually. A good design with bad presentation is doomed immediately.",
+    "author": "Internet"
+  },
+  {
+    "id": 11,
+    "quote": "Fast, cheap, correct. Choose two.",
+    "author": "Internet"
+  },
+  {
+    "id": 12,
+    "quote": "The fewer the facts, the stronger the opinion.",
+    "author": "Arnold H. Glasow"
+  }
+]
