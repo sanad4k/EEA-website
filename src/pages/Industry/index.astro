@@ -7,7 +7,9 @@ import { getCollection } from 'astro:content';
 const allPosts = await getCollection('data');
 
 // 2. Filter ONLY alumni (This is the only difference from the Interview page)
-const alumni = allPosts.filter(post => post.data.category === 'alumni');
+const alumni = allPosts.filter(post => post.data.category === 'alumni');  
+
+// change the tag in above line since im planning to change the alumni name to keep up with Industry 
 
 // 3. Sort by date (Newest first)
 alumni.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());

@@ -1,0 +1,257 @@
+---
+// src/components/SplitFlapBoard.astro
+
+const ACCENT_COLOR = '#EA4726';
+const BASE_COLOR = '#222222'; 
+const TEXT_COLOR = '#FFFFFF';
+
+// --- CONFIGURATION ---
+const COLS = 5;
+const ROWS = 4;
+const TOTAL_CELLS = COLS * ROWS; 
+
+const PHRASES = [
+  "HI",
+  "HOW   ARE   YOU  ?",
+  "WEL   COME",
+  "STAY HUNG   ARY" ,
+  "STAY FOOL   ISH"
+  
+];
+
+// --- INITIAL DATA ---
+const initialText = PHRASES[0].padEnd(TOTAL_CELLS, ' ').slice(0, TOTAL_CELLS);
+const initialTiles = Array.from({ length: TOTAL_CELLS }, (_, i) => ({
+  id: i,
+  char: initialText[i]
+}));
+---
+
+<div 
+  class="multi-state-wrapper my-24"
+  data-phrases={JSON.stringify(PHRASES)}
+  style={`--accent: ${ACCENT_COLOR}; --base: ${BASE_COLOR}; --text: ${TEXT_COLOR}; --cols: ${COLS};`}
+>
+  <div class="flap-grid">
+    {initialTiles.map((tile) => (
+      <div class="flap-scene">
+        <div class="flipper">
+          <div class="flap-face front">{tile.char}</div>
+          <div class="flap-face back"></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .multi-state-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .flap-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: 6px;
+    width: 100%;
+    max-width: 600px; 
+    padding: 20px;
+  }
+
+  .flap-scene {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    perspective: 1000px;
+  }
+
+  .flipper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+  }
+
+  .flap-face {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    backface-visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Courier New', Courier, monospace; 
+    font-weight: 900;
+    font-size: clamp(20px, 5vw, 40px);
+    color: var(--text);
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    background-image: linear-gradient(rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%);
+    background-size: 100% 1px; background-repeat: no-repeat; background-position: center;
+  }
+
+  .front { background-color: var(--base); transform: rotateX(0deg); z-index: 2; }
+  .back { background-color: var(--accent); transform: rotateX(180deg); }
+</style>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const wrapper = document.querySelector('.multi-state-wrapper');
+  const grid = wrapper.querySelector('.flap-grid');
+  const flippers = gsap.utils.toArray('.flipper');
+  const facesFront = gsap.utils.toArray('.front');
+  const facesBack = gsap.utils.toArray('.back');
+
+  // --- STATE ---
+  const PHRASES = JSON.parse(wrapper.dataset.phrases);
+  const TOTAL_CELLS = 25;
+  
+  let currentIndex = 0; 
+  let isPaused = false;     
+  let isAnimating = false;
+  let noiseLoopActive = false;
+
+  // --- HELPER: NORMALIZE TEXT ---
+  function getPhrase(index) {
+    const safeIndex = index % PHRASES.length;
+    return PHRASES[safeIndex].padEnd(TOTAL_CELLS, ' ').slice(0, TOTAL_CELLS);
+  }
+
+  // --- 1. THE RANDOM NOISE LOOP (LIVELY EMPTY FLIPPING) ---
+  function randomNoiseLoop() {
+    if (!noiseLoopActive) return;
+    if (isPaused || isAnimating) {
+        gsap.delayedCall(0.5, randomNoiseLoop);
+        return;
+    }
+
+    // Determine which face is visible based on rounded rotation
+    const sampleRot = gsap.getProperty(flippers[0], "rotateX");
+    const normalizedRot = Math.round(sampleRot / 180) * 180;
+    const isShowingFront = normalizedRot % 360 === 0;
+    const visibleFaces = isShowingFront ? facesFront : facesBack;
+    
+    // Find visibly empty tiles
+    const emptyIndices = [];
+    flippers.forEach((flipper, i) => {
+        const rot = gsap.getProperty(flipper, "rotateX");
+        const normalized = Math.round(rot / 180) * 180;
+        const isFrontVisible = normalized % 360 === 0;
+        
+        const face = isFrontVisible ? facesFront[i] : facesBack[i];
+        if (face.innerText.trim() === '') {
+            emptyIndices.push(i);
+        }
+    });
+
+    if (emptyIndices.length > 0) {
+        const shuffled = gsap.utils.shuffle([...emptyIndices]);
+        const pickCount = Math.min(gsap.utils.random(1, 3, 1), shuffled.length);
+        const targetsIndices = shuffled.slice(0, pickCount);
+        
+        targetsIndices.forEach(idx => {
+            const flipper = flippers[idx];
+            const currentRot = gsap.getProperty(flipper, "rotateX");
+            const normalized = Math.round(currentRot / 180) * 180;
+            const targetRot = normalized >= 180 ? 0 : 180;
+            
+            gsap.to(flipper, {
+                rotateX: targetRot,
+                duration: 0.4,
+                ease: "power2.inOut"
+            });
+        });
+    }
+
+    gsap.delayedCall(gsap.utils.random(0.4, 0.8), randomNoiseLoop);
+  }
+
+  // --- 2. THE MAIN CYCLE (CLEAN SLATE LOGIC) ---
+  function cycleToNext() {
+    if (isPaused) {
+       gsap.delayedCall(1.0, cycleToNext);
+       return; 
+    }
+
+    isAnimating = true; 
+
+    // Determine State
+    const currentRot = gsap.getProperty(flippers[0], "rotateX");
+    const normalizedRot = Math.round(currentRot / 180) * 180;
+    const isShowingFront = normalizedRot % 360 === 0;
+    
+    let nextRot, nextText, targetFaces, delayBeforeNext;
+
+    if (isShowingFront) {
+        // --- PHASE 1: THE WIPE ---
+        nextRot = 180;
+        nextText = "".padEnd(TOTAL_CELLS, ' ');
+        targetFaces = facesBack;
+        delayBeforeNext = 0.8; 
+    } else {
+        // --- PHASE 2: THE REVEAL ---
+        nextRot = 0;
+        currentIndex = (currentIndex + 1) % PHRASES.length;
+        nextText = getPhrase(currentIndex);
+        targetFaces = facesFront;
+        delayBeforeNext = 2.5;
+    }
+    
+    // Update the Hidden Faces immediately
+    targetFaces.forEach((face, i) => {
+      face.innerText = nextText[i];
+    });
+
+    // Run the synchronized flip
+    gsap.to(flippers, {
+      rotateX: nextRot,
+      duration: 0.8,
+      stagger: {
+        each: 0.04,
+        grid: [5, 5],
+        from: "start"
+      },
+      ease: "back.inOut(1.5)",
+      onComplete: () => {
+        isAnimating = false;
+        gsap.delayedCall(delayBeforeNext, cycleToNext);
+      }
+    });
+  }
+
+  // --- 3. INTERACTIONS ---
+  grid.addEventListener('mouseenter', () => { isPaused = true; });
+  grid.addEventListener('mouseleave', () => { isPaused = false; });
+
+  flippers.forEach(flipper => {
+    flipper.addEventListener('mouseenter', () => {
+      if (isAnimating) return;
+      
+      const currentRot = gsap.getProperty(flipper, "rotateX");
+      const normalized = Math.round(currentRot / 180) * 180;
+      const targetRot = normalized >= 180 ? 0 : 180;
+
+      gsap.to(flipper, {
+        rotateX: targetRot,
+        duration: 0.4,
+        ease: "power2.out",
+        overwrite: true
+      });
+    });
+  });
+
+  // --- INITIALIZATION ---
+  ScrollTrigger.create({
+    trigger: grid,
+    start: "top 80%",
+    onEnter: () => {
+       noiseLoopActive = true;
+       randomNoiseLoop();
+       gsap.delayedCall(2.5, cycleToNext);
+    },
+    once: true
+  });
+</script>

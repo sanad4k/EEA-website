@@ -3,7 +3,11 @@
 import Layout from "../layouts/Layout.astro";
 import AboutSection from "../components/AboutSection.astro";
 import Quotes from "../components/Quotes.astro";
-import TimeGreeting from "../components/TimeGreeting.astro"
+import TimeGreeting from "../components/TimeGreeting.astro";
+import BinaryTextReveal from "../components/BinaryTextReveal.astro";
+import SectionInterviews from "../components/SectionInterviews.astro";
+import Intro from "../components/Intro.astro";
+import Industry from "../components/Industry.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -11,14 +15,23 @@ import TimeGreeting from "../components/TimeGreeting.astro"
 
 <Layout>
 	<!-- <Bigletters /> -->
-	<section class="piece"></section> 
+	<section class="heightIndex"></section> 
 
-	<TimeGreeting />
+	<BinaryTextReveal />
 	<Quotes />
-	 <AboutSection/>
+	<Intro />
+
+
+	<SectionInterviews />
+	<Industry />
+	
+
+	<!-- <TimeGreeting /> -->
+	<AboutSection/>
+
 	 
 
 
-	</div>
+	
 
 </Layout>

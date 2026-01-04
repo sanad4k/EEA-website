@@ -1,0 +1,65 @@
+---
+// src/components/Intro.astro
+---
+
+<section id="intro-section" class="py-24 px-6 bg-[#E6E6E6]">
+  <div class="max-w-3xl mx-auto">
+    
+    <h2 class="intro-item text-[#EA4726] font-bold text-6xl md:text-8xl mb-8 tracking-tighter opacity-0 translate-y-8">
+      Hi.
+    </h2>
+
+    <div class="space-y-6 text-xl md:text-2xl text-gray-800 leading-relaxed font-medium">
+      
+      <p class="intro-item opacity-0 translate-y-8">
+        First time at EEA? <span class="text-gray-400">We keep it simple.</span>
+      </p>
+
+      <p class="intro-item opacity-0 translate-y-8">
+        This platform was built from the ground up to be a tool, to be useful. 
+      </p>
+
+      <p class="intro-item opacity-0 translate-y-8">
+        Inside, you’ll find a raw archive of 
+        <a href="/interviews" class="underline decoration-[#EA4726] decoration-2 underline-offset-4 hover:text-[#EA4726] transition-colors">interview experiences</a> 
+        from past batches and unfiltered talks with industry veterans. 
+        We also post notices for upcoming events and surveys here.
+      </p>
+
+      <p class="intro-item font-bold pt-4 opacity-0 translate-y-8">
+        Hope you find this useful. <br />
+        <span class="text-[#EA4726]">Get exploring stranger.</span>
+      </p>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.getElementById('intro-section');
+  // Select all items with our specific animation class
+  const items = section?.querySelectorAll('.intro-item');
+
+  if (section && items && items.length > 0) {
+    
+    gsap.to(items, {
+      scrollTrigger: {
+        trigger: section,
+        start: "top 85%", // Starts when top of section hits 75% of viewport height
+        toggleActions: "play none none reverse", // Plays on enter, reverses on leave
+      },
+      duration: 1.0,
+      autoAlpha: 1, // Reveals opacity and visibility
+      y: 0,         // Moves to original position
+      ease: "power3.out", // Snappy but smooth ease
+      stagger: 0.15 // 0.15s delay between each paragraph
+    });
+    
+  }
+</script>

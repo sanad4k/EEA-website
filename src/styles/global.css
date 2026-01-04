@@ -3,7 +3,9 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap'); */
 
 
-
+.heightIndex{
+  height: 150px;
+}
 .piece {
   /* height: 10vh; */
   padding-top: 55px;

@@ -1,0 +1,78 @@
+---
+// src/components/SectionInterviews.astro
+---
+
+<section id="interview-section" class="py-24 px-6 bg-[#E6E6E6] overflow-hidden">
+  <div class="max-w-4xl mx-auto text-center">
+    
+    <span class="interview-text block text-[#EA4726] font-bold tracking-widest uppercase text-sm mb-4 opacity-0 translate-y-8">
+      Interviews
+    </span>
+
+    <h2 class="interview-text text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight opacity-0 translate-y-8">
+      
+    </h2>
+
+    <p class="interview-text text-lg md:text-[30px] text-black leading-relaxed max-w-2xl mx-auto mb-12 opacity-0 translate-y-8">
+      Confused about upcoming internship drives or placement season? or just curious.
+      Understand what recruiters want. Read our interview blogs to learn from real interview experiences 
+      of your seniors .
+    </p>
+
+    <div id="interview-btn-wrapper" class="inline-block scale-0">
+      <a 
+        href="/interviews" 
+        class="inline-flex items-center gap-2 bg-[#EA4726] text-white px-8 py-4 rounded-full font-bold text-lg transition-transform hover:-translate-y-1 hover:shadow-lg group"
+      >
+        Read Interviews
+        <svg 
+          class="w-5 h-5 transition-transform group-hover:translate-x-1" 
+          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.getElementById('interview-section');
+  
+  // FIX: Use querySelector instead of getElementById for children
+  const textElements = section?.querySelectorAll('.interview-text');
+  const btnWrapper = section?.querySelector('#interview-btn-wrapper');
+
+  if (section && textElements && btnWrapper) {
+    
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 75%",
+        toggleActions: "play none none reverse"
+      }
+    });
+
+    // 1. REVEAL TEXT
+    tl.to(textElements, {
+      duration: 0.8,
+      autoAlpha: 1, // Becomes visible
+      y: 0,         // Moves into place
+      ease: "power3.out",
+      stagger: 0.2
+    });
+
+    // 2. REVEAL BUTTON
+    tl.to(btnWrapper, {
+      duration: 1.3,
+      scale: 1,
+      ease: "elastic.out(0.4,0.3)", 
+    }, "-=0.6");
+  }
+</script>
