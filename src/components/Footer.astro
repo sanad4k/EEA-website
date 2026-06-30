@@ -1,0 +1,68 @@
+---
+// src/components/Footer.astro
+const socials = [
+  {
+    name: "Instagram",
+    url: "https://www.instagram.com/nitc_eea/",
+    icon: "instagram"
+  },
+  {
+    name: "NITC Website",
+    url: "https://nitc.ac.in/",
+    icon: "globe"
+  }
+];
+---
+
+<footer class="border-t border-[color:var(--glass-border)] bg-[color:var(--glass-bg)]/20 backdrop-blur-[12px] py-12 px-6 mt-auto transition-colors duration-300">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    
+    <!-- Left: Branding -->
+    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+      <span class="text-xl font-bold tracking-tight text-[color:var(--text-primary)]">EEA</span>
+      <p class="text-xs text-[color:var(--text-secondary)]/60 mt-1 max-w-sm">
+        Electrical Engineering Association, National Institute of Technology, Calicut.
+      </p>
+    </div>
+
+    <!-- Center/Right: Social Links -->
+    <div class="flex items-center gap-4">
+      {socials.map((social) => (
+        <a 
+          href={social.url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          title={social.name}
+          class="p-2.5 bg-[color:var(--glass-bg)] border border-[color:var(--glass-border)] text-[color:var(--text-secondary)] hover:text-[#F85E00] hover:border-[#F85E00]/30 hover:scale-105 rounded-xl shadow-[color:var(--glass-shadow)] transition-all duration-300 flex items-center justify-center"
+        >
+          {social.icon === 'instagram' ? (
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          ) : social.icon === 'globe' ? (
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          ) : (
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+          )}
+        </a>
+      ))}
+    </div>
+
+  </div>
+
+  <!-- Bottom Details -->
+  <div class="max-w-6xl mx-auto border-t border-[color:var(--glass-border)]/50 mt-8 pt-6 text-center">
+    <p class="text-[10px] uppercase tracking-wider text-[color:var(--text-secondary)]/40 font-normal">
+      &copy; {new Date().getFullYear()} Electrical Engineering Association (EEA). All rights reserved.
+    </p>
+  </div>
+</footer>

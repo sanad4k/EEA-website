@@ -1,5 +1,6 @@
 ---
 import Navbar from "../components/navbar.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 ---
 
@@ -38,7 +39,7 @@ import "../styles/global.css";
 			window.localStorage.setItem('theme', theme);
 		</script>
 	</head>
-	<body class="bg-[color:var(--canvas-bg)] text-[color:var(--text-primary)] font-sans antialiased min-h-screen relative transition-colors duration-300">
+	<body class="bg-[color:var(--canvas-bg)] text-[color:var(--text-primary)] font-sans antialiased min-h-screen relative transition-colors duration-300 flex flex-col justify-between">
 		<!-- Background Ambient Gradient Meshes -->
 		<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
 			<div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#2A4D14]/[var(--mesh-green-opacity)] blur-[120px] transition-colors duration-300"></div>
@@ -49,7 +50,10 @@ import "../styles/global.css";
 		<header>
 			<Navbar />
 		</header>
-		<slot />
+		<main class="flex-grow">
+			<slot />
+		</main>
+		<Footer />
 
 		<script>
 			import { gsap } from "gsap";
