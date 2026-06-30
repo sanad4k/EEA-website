@@ -42,7 +42,7 @@ import "../styles/global.css";
 		<!-- Background Ambient Gradient Meshes -->
 		<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
 			<div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#2A4D14]/[var(--mesh-green-opacity)] blur-[120px] transition-colors duration-300"></div>
-			<div class="absolute bottom-[20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[#F85E00]/[var(--mesh-orange-opacity)] blur-[150px] transition-colors duration-300"></div>
+			<div id="ambient-orange-ball" class="absolute top-[10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#F85E00]/[var(--mesh-orange-opacity)] blur-[150px] transition-colors duration-300"></div>
 			<div class="absolute top-[30%] left-[30%] w-[50vw] h-[50vw] rounded-full bg-[#F85E00]/[var(--mesh-orange-opacity)] blur-[130px] transition-colors duration-300"></div>
 		</div>
 
@@ -50,6 +50,27 @@ import "../styles/global.css";
 			<Navbar />
 		</header>
 		<slot />
+
+		<script>
+			import { gsap } from "gsap";
+			import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+			gsap.registerPlugin(ScrollTrigger);
+
+			const ball = document.getElementById("ambient-orange-ball");
+			if (ball) {
+				gsap.to(ball, {
+					y: "65vh",
+					x: "-25vw",
+					scrollTrigger: {
+						trigger: "body",
+						start: "top top",
+						end: "bottom bottom",
+						scrub: 1.8
+					}
+				});
+			}
+		</script>
 	</body>
 </html>
 
