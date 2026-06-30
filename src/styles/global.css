@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --canvas-bg: #F5F5F7;
+  --canvas-bg: #EAE7E1;
   --text-primary: #1D1D1F;
   --text-secondary: rgba(29, 29, 31, 0.7);
-  --glass-bg: rgba(255, 255, 255, 0.45);
-  --glass-border: rgba(0, 0, 0, 0.08);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
-  --mesh-green-opacity: 0.06;
-  --mesh-orange-opacity: 0.04;
-  --flipper-base: rgba(0, 0, 0, 0.05);
-  --flipper-border: rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(0, 0, 0, 0.05);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+  --mesh-green-opacity: 0.12;
+  --mesh-orange-opacity: 0.10;
+  --flipper-base: rgba(255, 255, 255, 0.85);
+  --flipper-border: rgba(0, 0, 0, 0.06);
   --flipper-text: #1D1D1F;
 }
 
