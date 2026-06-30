@@ -1,37 +1,32 @@
 ---
-// import Bigletters from "../components/bigletters.astro";
 import Layout from "../layouts/Layout.astro";
-import AboutSection from "../components/AboutSection.astro";
 import Quotes from "../components/Quotes.astro";
-import TimeGreeting from "../components/TimeGreeting.astro";
 import BinaryTextReveal from "../components/BinaryTextReveal.astro";
 import SectionInterviews from "../components/SectionInterviews.astro";
 import Intro from "../components/Intro.astro";
-import Industry from "../components/Industry.astro";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Placements from "../components/Placements.astro";
 ---
 
 <Layout>
-	<!-- <Bigletters /> -->
-	<section class="heightIndex"></section> 
+	<section class="h-24 md:h-32"></section> 
 
-	<BinaryTextReveal />
-	<Quotes />
+	<!-- Mechanical Board & Inspiration Hero Area -->
+	<div class="max-w-4xl mx-auto px-6 flex flex-col items-center">
+		<BinaryTextReveal />
+		<Quotes />
+	</div>
+
+	<!-- Staggered narrative intro -->
 	<Intro />
 
-
-	<SectionInterviews />
-	<Industry />
-	
-
-	<!-- <TimeGreeting /> -->
-	<AboutSection/>
-
-	 
-
-
-	
+	<!-- Side-by-Side Placement & Interview Hubs -->
+	<div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 mb-32 mt-8">
+		<div class="bg-[color:var(--glass-bg)] border border-[color:var(--glass-border)] rounded-3xl backdrop-blur-[24px] shadow-[color:var(--glass-shadow)] hover:border-[#F85E00]/30 transition-all duration-300 flex flex-col justify-between h-full">
+			<SectionInterviews />
+		</div>
+		<div class="bg-[color:var(--glass-bg)] border border-[color:var(--glass-border)] rounded-3xl backdrop-blur-[24px] shadow-[color:var(--glass-shadow)] hover:border-[#F85E00]/30 transition-all duration-300 flex flex-col justify-between h-full">
+			<Placements />
+		</div>
+	</div>
 
 </Layout>

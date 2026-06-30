@@ -1,17 +1,17 @@
 ---
-import BaseLayout from '../layouts/Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import SearchWidget from '../components/SearchWidget.astro';
 ---
 
-<BaseLayout pageTitle="Search Results">
-  <div class="max-w-4xl mx-auto px-6 py-12">
-    <h1 class="text-3xl font-bold mb-6">Search Results</h1>
+<Layout pageTitle="Search Results">
+  <div class="max-w-4xl mx-auto px-6 pt-32 pb-16">
+    <h1 class="text-3xl font-bold tracking-tight text-[color:var(--text-primary)] mb-6">Search Results</h1>
     
-    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm min-h-[400px]">
+    <div class="bg-[color:var(--glass-bg)] border border-[color:var(--glass-border)] rounded-3xl p-6 shadow-[color:var(--glass-shadow)] min-h-[400px] backdrop-blur-[24px] transition-colors duration-300">
       <SearchWidget />
     </div>
   </div>
-</BaseLayout>
+</Layout>
 
 <script is:inline>
   // This script grabs the "?q=..." from the URL and types it into the widget automatically

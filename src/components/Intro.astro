@@ -2,17 +2,17 @@
 // src/components/Intro.astro
 ---
 
-<section id="intro-section" class="py-24 px-6 bg-[#E6E6E6]">
-  <div class="max-w-3xl mx-auto">
+<section id="intro-section" class="py-16 px-6 bg-transparent">
+  <div class="max-w-3xl mx-auto bg-[color:var(--glass-bg)] border border-[color:var(--glass-border)] rounded-3xl p-8 md:p-12 backdrop-blur-[24px] shadow-[color:var(--glass-shadow)] transition-all duration-300 hover:border-[#F85E00]/20">
     
-    <h2 class="intro-item text-[#EA4726] font-bold text-6xl md:text-8xl mb-8 tracking-tighter opacity-0 translate-y-8">
+    <h2 class="intro-item text-[#F85E00] font-bold tracking-tight text-6xl md:text-7xl mb-8 opacity-0 translate-y-8">
       Hi.
     </h2>
 
-    <div class="space-y-6 text-xl md:text-2xl text-gray-800 leading-relaxed font-medium">
+    <div class="space-y-6 text-lg md:text-xl text-[color:var(--text-secondary)] leading-relaxed font-normal">
       
       <p class="intro-item opacity-0 translate-y-8">
-        First time at EEA? <span class="text-gray-400">We keep it simple.</span>
+        First time at EEA? <span class="text-[color:var(--text-secondary)]/50">We keep it simple.</span>
       </p>
 
       <p class="intro-item opacity-0 translate-y-8">
@@ -21,14 +21,14 @@
 
       <p class="intro-item opacity-0 translate-y-8">
         Inside, you’ll find a raw archive of 
-        <a href="/interviews" class="underline decoration-[#EA4726] decoration-2 underline-offset-4 hover:text-[#EA4726] transition-colors">interview experiences</a> 
+        <a href="/interviews" class="underline decoration-[#F85E00] decoration-2 underline-offset-4 hover:text-[#F85E00] transition-colors text-[color:var(--text-primary)]">interview experiences</a> 
         from past batches and unfiltered talks with industry veterans. 
         We also post notices for upcoming events and surveys here.
       </p>
 
-      <p class="intro-item font-bold pt-4 opacity-0 translate-y-8">
+      <p class="intro-item font-semibold pt-4 opacity-0 translate-y-8 text-[color:var(--text-primary)]">
         Hope you find this useful. <br />
-        <span class="text-[#EA4726]">Get exploring stranger.</span>
+        <span class="text-[#F85E00]">Get exploring stranger.</span>
       </p>
 
     </div>
@@ -43,7 +43,6 @@
   gsap.registerPlugin(ScrollTrigger);
 
   const section = document.getElementById('intro-section');
-  // Select all items with our specific animation class
   const items = section?.querySelectorAll('.intro-item');
 
   if (section && items && items.length > 0) {
@@ -51,14 +50,14 @@
     gsap.to(items, {
       scrollTrigger: {
         trigger: section,
-        start: "top 85%", // Starts when top of section hits 75% of viewport height
-        toggleActions: "play none none reverse", // Plays on enter, reverses on leave
+        start: "top 85%",
+        toggleActions: "play none none reverse",
       },
       duration: 1.0,
-      autoAlpha: 1, // Reveals opacity and visibility
-      y: 0,         // Moves to original position
-      ease: "power3.out", // Snappy but smooth ease
-      stagger: 0.15 // 0.15s delay between each paragraph
+      autoAlpha: 1, 
+      y: 0,         
+      ease: "power3.out", 
+      stagger: 0.15 
     });
     
   }

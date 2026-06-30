@@ -1,6 +1,5 @@
 ---
 import Navbar from "../components/navbar.astro";
-
 import "../styles/global.css";
 ---
 
@@ -13,17 +12,40 @@ import "../styles/global.css";
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap"
-			rel="stylesheet"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
 			rel="stylesheet"
 		/>
 		<meta name="generator" content={Astro.generator} />
 		<title>EEA Website</title>
+		
+		<script is:inline>
+			// Inlined in head to prevent FOUC (Flash of Unstyled Content)
+			const theme = (() => {
+				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+					return localStorage.getItem('theme');
+				}
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					return 'dark';
+				}
+				return 'light';
+			})();
+			
+			if (theme === 'light') {
+				document.documentElement.classList.remove('dark');
+			} else {
+				document.documentElement.classList.add('dark');
+			}
+			window.localStorage.setItem('theme', theme);
+		</script>
 	</head>
-	<body class="primary-bg bbh-bogle-regular oswald-fnt-lt">
+	<body class="bg-[color:var(--canvas-bg)] text-[color:var(--text-primary)] font-sans antialiased min-h-screen relative transition-colors duration-300">
+		<!-- Background Ambient Gradient Meshes -->
+		<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+			<div class="absolute top-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#2A4D14]/[var(--mesh-green-opacity)] blur-[120px] transition-colors duration-300"></div>
+			<div class="absolute bottom-[20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[#F85E00]/[var(--mesh-orange-opacity)] blur-[150px] transition-colors duration-300"></div>
+			<div class="absolute top-[30%] left-[30%] w-[50vw] h-[50vw] rounded-full bg-[#F85E00]/[var(--mesh-orange-opacity)] blur-[130px] transition-colors duration-300"></div>
+		</div>
+
 		<header>
 			<Navbar />
 		</header>
@@ -39,20 +61,3 @@ import "../styles/global.css";
 		height: 100%;
 	}
 </style>
-
-
-
-<!-- uncomment for custom cursor -->
-
-<!-- <style is:global>
- 
-  
-  html, body {
-    cursor: url('/probe.svg') 0 0, auto;
-  }
-
-  /* Force the probe to stay even on hoverable items */
-  a, button, [role="button"], input, select, textarea {
-    cursor: url('/probe.svg') 0 0, pointer; 
-  }
-</style> -->

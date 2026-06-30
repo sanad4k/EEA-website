@@ -30,7 +30,7 @@ const items = [
 ];
 ---
 
-<section id="physics-container" class="relative w-full h-[60vh] md:h-[80vh] overflow-hidden bg-gray-50 border-b border-gray-300">
+<section id="physics-container" class="relative w-full h-[60vh] md:h-[80vh] overflow-hidden bg-white/[0.01] border-b border-white/[0.1]">
   
   {items.map((item) => (
     <div 
@@ -38,17 +38,17 @@ const items = [
       data-type={item.type}
       data-x-percent={item.xPercent}
       data-y-offset={item.yOffset}
-      class="physics-item absolute left-0 top-0 pointer-events-none select-none bg-black text-white flex items-center justify-center text-center p-4 will-change-transform z-10 rounded-xl"
+      class="physics-item absolute left-0 top-0 pointer-events-none select-none bg-white/[0.03] backdrop-blur-[24px] border border-white/[0.1] text-white flex items-center justify-center text-center p-4 will-change-transform z-10 rounded-full shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
     >
       <span class={item.type === 'hero' 
-        ? "text-[4rem] md:text-[8rem] font-black leading-none" 
-        : "text-sm md:text-xl font-bold leading-tight"}>
+        ? "text-[4rem] md:text-[8rem] font-bold tracking-tight leading-none text-[#F85E00]" 
+        : "text-sm md:text-xl font-semibold leading-tight text-white/70"}>
         {item.text}
       </span>
     </div>
   ))}
     
-  <div class="absolute bottom-0 w-full h-1 bg-gray-400 z-0 pointer-events-none"></div>
+  <div class="absolute bottom-0 w-full h-1 bg-white/10 z-0 pointer-events-none"></div>
 </section>
 
 <script>
@@ -70,12 +70,11 @@ const items = [
 
   // --- CONFIGURATION ---
   const FLOOR_HEIGHT = 4;
-  const CORNER_RADIUS = 16; // Rounded corners for physics bodies
   
   // Define Sizes for different types (Mobile vs Desktop)
   const SIZES = {
-    hero: { w: isMobile ? 80 : 160, h: isMobile ? 100 : 200 },
-    info: { w: isMobile ? 150 : 300, h: isMobile ? 80 : 120 } // Wider, shorter boxes for text
+    hero: { w: isMobile ? 100 : 200, h: isMobile ? 100 : 200 },
+    info: { w: isMobile ? 220 : 440, h: isMobile ? 80 : 120 } 
   };
 
   // --- ENGINE SETUP ---
@@ -96,7 +95,6 @@ const items = [
   World.add(world, [floor, leftWall, rightWall]);
 
   // --- DYNAMIC ITEM GENERATION ---
-  // 1. Find all HTML elements we created in the loop above
   const htmlItems = document.querySelectorAll('.physics-item');
 
   htmlItems.forEach((el) => {
@@ -113,16 +111,19 @@ const items = [
     element.style.width = `${size.w}px`;
     element.style.height = `${size.h}px`;
 
-    // 4. Create Physics Body with rounded corners
+    // 4. Create Physics Body with dynamically computed corner radius for perfect pill/circle shape
     const startX = width * xPercent;
-    const startY = height - FLOOR_HEIGHT - (size.h / 2) + yOffset; // Start higher up based on offset
+    const startY = height - FLOOR_HEIGHT - (size.h / 2) + yOffset; 
+
+    // Dynamic chamfer radius based on height/width ratio
+    const radius = Math.min(size.w, size.h) / 2;
 
     const body = Bodies.rectangle(startX, startY, size.w, size.h, { 
       restitution: 0.5, 
       friction: 0.1, 
       density: 0.04,
-      label: id, // CRITICAL: This connects Physics Body -> HTML Element
-      chamfer: { radius: CORNER_RADIUS } // Add rounded corners to physics collision
+      label: id, 
+      chamfer: { radius: radius - 1 } // Slightly smaller radius to ensure solid geometry
     });
 
     World.add(world, body);

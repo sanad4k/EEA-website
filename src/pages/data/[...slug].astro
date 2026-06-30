@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 
 
 export async function getStaticPaths() {
@@ -15,19 +15,19 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 <section class="piece"></section>
-<BaseLayout pageTitle={post.data.title}>
+<Layout pageTitle={post.data.title}>
   
-  <main class="max-w-4xl mx-auto px-6 py-20">
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-20">
     
-    <div class="mb-12 border-b border-gray-200 pb-8">
-      <span class="text-[#EA4726] font-bold tracking-wider uppercase text-sm">
-        {post.data.category}
+    <div class="mb-12 border-b border-[color:var(--glass-border)] pb-8 transition-colors duration-300">
+      <span class="text-[#F85E00] font-semibold tracking-wider uppercase text-sm">
+        {post.data.category === 'alumni' ? 'Placement' : 'Interview'}
       </span>
-      <h1 class="text-4xl md:text-6xl font-black text-gray-900 mt-2 mb-6 leading-tight">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-[color:var(--text-primary)] mt-2 mb-6 leading-tight transition-colors duration-300">
         {post.data.title}
       </h1>
-      <div class="flex flex-wrap items-center gap-4 text-gray-500 text-lg">
-        <span class="font-bold text-gray-900">{post.data.candidateName}</span>
+      <div class="flex flex-wrap items-center gap-4 text-[color:var(--text-secondary)]/70 text-lg transition-colors duration-300">
+        <span class="font-semibold text-[color:var(--text-primary)]">{post.data.candidateName}</span>
         <span>•</span>
         <span>{post.data.company}</span>
         <span>•</span>
@@ -40,32 +40,32 @@ const { Content } = await post.render();
     </article>
 
   </main>
-</BaseLayout>
+</Layout>
 
 <style is:global>
   /* Base Text */
   .markdown-body {
-    font-family: system-ui, -apple-system, sans-serif;
-    color: #374151; /* Gray-700 */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-secondary);
     line-height: 1.8;
     font-size: 1.125rem; /* 18px */
+    transition: color 0.3s ease;
   }
 
-  /* FORCE HEADERS TO BE BIG 
-     We use !important to override any Tailwind defaults 
-  */
+  /* FORCE HEADERS TO BE BIG */
   
   /* H1 (# Title) */
   .markdown-body h1 {
     display: block;
     font-size: 2.5rem !important; /* 40px */
-    font-weight: 800 !important;
-    color: #111827; /* Gray-900 */
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
     margin-top: 3rem !important;
     margin-bottom: 1.5rem !important;
     line-height: 1.2;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--glass-border) !important;
     padding-bottom: 0.5rem;
+    transition: color 0.3s ease, border-color 0.3s ease;
   }
 
   /* H2 (## Title) - Used for 'Career', 'Industry Insights' */
@@ -73,7 +73,7 @@ const { Content } = await post.render();
     display: block;
     font-size: 1.8rem !important; /* ~28px */
     font-weight: 700 !important;
-    color: #EA4726 !important; /* YOUR ORANGE ACCENT */
+    color: #F85E00 !important; /* Primary Orange Accent */
     margin-top: 2.5rem !important;
     margin-bottom: 1rem !important;
   }
@@ -82,16 +82,18 @@ const { Content } = await post.render();
   .markdown-body h3 {
     display: block;
     font-size: 1.35rem !important; /* ~22px */
-    font-weight: 700 !important;
-    color: #1f2937;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
     margin-top: 2rem !important;
     margin-bottom: 0.5rem !important;
+    transition: color 0.3s ease;
   }
 
   /* Bold Text (**text**) */
   .markdown-body strong {
     font-weight: 700 !important;
-    color: #000;
+    color: var(--text-primary) !important;
+    transition: color 0.3s ease;
   }
 
   /* Paragraphs */
@@ -109,15 +111,23 @@ const { Content } = await post.render();
     margin-bottom: 0.5rem;
   }
   .markdown-body li::marker {
-    color: #EA4726; /* Orange bullets */
+    color: #F85E00; /* Orange bullets */
   }
   
   /* Blockquotes */
   .markdown-body blockquote {
-    border-left: 4px solid #EA4726;
-    background-color: #f9fafb;
+    border-left: 4px solid #F85E00;
+    background-color: var(--glass-bg);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid var(--glass-border);
+    border-left: 4px solid #F85E00;
     padding: 1rem;
     font-style: italic;
     margin: 2rem 0;
+    color: var(--text-secondary);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 </style>

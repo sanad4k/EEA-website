@@ -1,8 +1,8 @@
 ---
 // src/components/SplitFlapBoard.astro
 
-const ACCENT_COLOR = '#EA4726';
-const BASE_COLOR = '#222222'; 
+const ACCENT_COLOR = '#F85E00';
+const BASE_COLOR = 'rgba(255, 255, 255, 0.05)'; 
 const TEXT_COLOR = '#FFFFFF';
 
 // --- CONFIGURATION ---
@@ -30,7 +30,7 @@ const initialTiles = Array.from({ length: TOTAL_CELLS }, (_, i) => ({
 <div 
   class="multi-state-wrapper my-24"
   data-phrases={JSON.stringify(PHRASES)}
-  style={`--accent: ${ACCENT_COLOR}; --base: ${BASE_COLOR}; --text: ${TEXT_COLOR}; --cols: ${COLS};`}
+  style={`--accent: #F85E00; --base: var(--flipper-base); --text: var(--flipper-text); --cols: ${COLS};`}
 >
   <div class="flap-grid">
     {initialTiles.map((tile) => (
@@ -82,15 +82,19 @@ const initialTiles = Array.from({ length: TOTAL_CELLS }, (_, i) => ({
     font-family: 'Courier New', Courier, monospace; 
     font-weight: 900;
     font-size: clamp(20px, 5vw, 40px);
-    color: var(--text);
-    border-radius: 4px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    background-image: linear-gradient(rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%);
+    color: var(--flipper-text);
+    border-radius: 8px;
+    border: 1px solid var(--flipper-border);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background-image: linear-gradient(rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.05) 100%);
     background-size: 100% 1px; background-repeat: no-repeat; background-position: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
 
-  .front { background-color: var(--base); transform: rotateX(0deg); z-index: 2; }
-  .back { background-color: var(--accent); transform: rotateX(180deg); }
+  .front { background-color: var(--flipper-base); transform: rotateX(0deg); z-index: 2; }
+  .back { background-color: #F85E00; transform: rotateX(180deg); }
 </style>
 
 <script>

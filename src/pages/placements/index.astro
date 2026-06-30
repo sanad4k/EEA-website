@@ -6,20 +6,21 @@ import { getCollection } from 'astro:content';
 // 1. Fetch ALL data
 const allPosts = await getCollection('data');
 
-// 2. Filter ONLY alumni (This is the only difference from the Interview page)
+// 2. Filter ONLY alumni (Placement profiles)
 const alumni = allPosts.filter(post => post.data.category === 'alumni');  
-
-// change the tag in above line since im planning to change the alumni name to keep up with Industry 
 
 // 3. Sort by date (Newest first)
 alumni.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout pageTitle="Alumni Network">
-  <div class="max-w-7xl mx-auto px-6 py-12">
+<Layout pageTitle="Placements">
+  <div class="max-w-7xl mx-auto px-6 pt-32 pb-16">
     <div class="mb-10">
-      <h1 class="text-4xl font-bold mb-4">Alumni Network</h1>
-      <p class="text-xl text-gray-600">Connect with seniors working in the industry.</p>
+      <span class="block text-[#F85E00] font-semibold tracking-wider uppercase text-sm mb-2">
+        Alumni Network
+      </span>
+      <h1 class="text-4xl font-bold tracking-tight text-[color:var(--text-primary)] mb-4">Placement Experiences</h1>
+      <p class="text-xl text-[color:var(--text-secondary)] font-normal">Connect with seniors and stay up to date with placement trends.</p>
     </div>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -28,4 +29,4 @@ alumni.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
       ))}
     </div>
   </div>
-</BaseLayout>
+</Layout>

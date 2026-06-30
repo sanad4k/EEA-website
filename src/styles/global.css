@@ -1,57 +1,96 @@
 @import "tailwindcss";
 
-/* @import url('https://fonts.googleapis.com/css2?family=Schoolbell&display=swap'); */
+:root {
+  --canvas-bg: #F5F5F7;
+  --text-primary: #1D1D1F;
+  --text-secondary: rgba(29, 29, 31, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+  --mesh-green-opacity: 0.06;
+  --mesh-orange-opacity: 0.04;
+  --flipper-base: rgba(0, 0, 0, 0.05);
+  --flipper-border: rgba(0, 0, 0, 0.08);
+  --flipper-text: #1D1D1F;
+}
 
+.dark {
+  --canvas-bg: #000000;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --mesh-green-opacity: 0.15;
+  --mesh-orange-opacity: 0.10;
+  --flipper-base: rgba(255, 255, 255, 0.05);
+  --flipper-border: rgba(255, 255, 255, 0.1);
+  --flipper-text: #FFFFFF;
+}
 
-.heightIndex{
+.heightIndex {
   height: 150px;
 }
 .piece {
-  /* height: 10vh; */
   padding-top: 55px;
   display: grid;
   place-content: center;
 }
 
+/* Glassmorphism Design Tokens */
+.glass-surface {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
+}
 
 .primary-bg {
-    /* color :#000; */
-    background-color: #E6E6E6;
+  background-color: var(--canvas-bg);
+}
 
+.secondary-bg {
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
-.secondary-bg{
-    background-color: black;
-}
+
 .primary-clr {
-    color:black;
-}
-.accentclr{
-    color:#EA4726
+  color: var(--text-primary);
 }
 
+.accentclr {
+  color: #F85E00;
+}
 
+.secondary-accent-clr {
+  color: #F85E00;
+}
+
+/* Legacy Font Overrides to Map to 'Inter' */
 .oswald-fnt-lt {
-  font-family: "Oswald", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-style: normal;
-}
-.oswald-fnt-md {
-  font-family: "Oswald", sans-serif;
-  font-optical-sizing: auto;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 400;
-  font-style: normal;
 }
-.oswald-fnt-bd {
-  font-family: "Oswald", sans-serif;
-  font-optical-sizing: auto;
+
+.oswald-fnt-md {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-weight: 600;
-  font-style: normal;
+}
+
+.oswald-fnt-bd {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 
 .navbarStyle {
-    padding: 10px;
-    border-radius: 8px;
-    border-color:#fca311;
-    background-color: #ffffff;
+  padding: 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
 }
