@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({
+    params: { slug: event.slug },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await event.render();
+---
+<section class="piece"></section>
+<Layout pageTitle={event.data.title}>
+  
+  <main class="max-w-4xl mx-auto px-6 pt-24 pb-20">
+    
+    <div class="mb-12 border-b border-[color:var(--glass-border)] pb-8 transition-colors duration-300">
+      <span class="text-[#F85E00] font-semibold tracking-wider uppercase text-sm">
+        Event Blog
+      </span>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-[color:var(--text-primary)] mt-2 mb-6 leading-tight transition-colors duration-300">
+        {event.data.title}
+      </h1>
+      <div class="flex flex-wrap items-center gap-4 text-[color:var(--text-secondary)]/70 text-lg transition-colors duration-300">
+        {event.data.location && (
+          <>
+            <span class="font-semibold text-[color:var(--text-primary)]">📍 {event.data.location}</span>
+            <span>•</span>
+          </>
+        )}
+        <time>{new Date(event.data.date).toLocaleDateString("en-US", {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })}</time>
+      </div>
+    </div>
+
+    <article class="markdown-body">
+      <Content />
+    </article>
+
+  </main>
+</Layout>
+
+<style is:global>
+  /* Base Text */
+  .markdown-body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    font-size: 1.125rem; /* 18px */
+    transition: color 0.3s ease;
+  }
+
+  /* FORCE HEADERS TO BE BIG */
+  
+  /* H1 (# Title) */
+  .markdown-body h1 {
+    display: block;
+    font-size: 2.5rem !important; /* 40px */
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    margin-top: 3rem !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 1.2;
+    border-bottom: 1px solid var(--glass-border) !important;
+    padding-bottom: 0.5rem;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* H2 (## Title) - Used for 'Career', 'Industry Insights' */
+  .markdown-body h2 {
+    display: block;
+    font-size: 1.8rem !important; /* ~28px */
+    font-weight: 700 !important;
+    color: #F85E00 !important; /* Primary Orange Accent */
+    margin-top: 2.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* H3 (### Title) - Used for Questions 'Q: ...' */
+  .markdown-body h3 {
+    display: block;
+    font-size: 1.35rem !important; /* ~22px */
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    margin-top: 2rem !important;
+    margin-bottom: 0.5rem !important;
+    transition: color 0.3s ease;
+  }
+
+  /* Bold Text (**text**) */
+  .markdown-body strong {
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    transition: color 0.3s ease;
+  }
+
+  /* Paragraphs */
+  .markdown-body p {
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Lists */
+  .markdown-body ul {
+    list-style-type: disc !important;
+    padding-left: 2rem !important;
+    margin-bottom: 1.5rem;
+  }
+  .markdown-body li {
+    margin-bottom: 0.5rem;
+  }
+  .markdown-body li::marker {
+    color: #F85E00; /* Orange bullets */
+  }
+  
+  /* Blockquotes */
+  .markdown-body blockquote {
+    border-left: 4px solid #F85E00;
+    background-color: var(--glass-bg);
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid var(--glass-border);
+    padding: 1rem;
+    font-style: italic;
+    margin: 2rem 0;
+    color: var(--text-secondary);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+</style>
